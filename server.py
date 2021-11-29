@@ -1,13 +1,19 @@
 import socket
 import sys
+import random
 
-PORT = sys.argv[1]
-SERVER = socket.gethostbyname(socket.gethostname())
-ADDR = (SERVER, PORT)
+sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)     
 
-server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server.bind(ADDR)
-server.listen()
+host = socket.gethostname()		        
+port = int(sys.argv[1])			                
 
+sock.bind((host,port))
+
+print("[server] : ready to accept data...")
 while True:
-    conn, addr = server.accept()
+    data, addr = sock.recvfrom(1024)	        
+    print ("[CLIENT] : ",data.decode())
+    if random.random() < 0.7:
+        sock.sendto("PONG".encode(), addr)
+    else:
+        print("[server] : packet dropped")
