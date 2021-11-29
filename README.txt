@@ -4,4 +4,3 @@ ex:
 python server.py 5050
 python client.py 5050
 
-hostname is obtained through socket.gethostname()
